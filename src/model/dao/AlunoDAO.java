@@ -30,7 +30,7 @@ public class AlunoDAO {
 			prepStmt.setDouble(6, a.getNotaTrabalho1());
 			prepStmt.setDouble(7, a.getNotaTrabalho2());
 			prepStmt.setDouble(8, a.getMedia());
-			prepStmt.setBoolean(9, a.isSituacao());
+			prepStmt.setString(9, a.getSituacao());
 
 			prepStmt.execute();
 
@@ -103,7 +103,7 @@ public class AlunoDAO {
 		return sucessoDelete;
 	}
 	
-	public ArrayList<Aluno> listarTodos(){
+	/*public ArrayList<Aluno> listarTodos(){
 		String sql = " SELECT * FROM ALUNO ";
 		
 		Connection conexao = Banco.getConnection();
@@ -136,7 +136,7 @@ public class AlunoDAO {
 	 * @return um produto caso o id exista na tabela Produto
 	 * 		   null caso contrário
 	 */
-	public Aluno obterPorId(int id){
+	/*public Aluno obterPorId(int id){
 		String sql = " SELECT * FROM ALUNO "
 				+ " WHERE ID=?";
 		
@@ -161,5 +161,5 @@ public class AlunoDAO {
 			System.out.println("Erro buscar um aluno. Causa: \n:" + e.getCause());
 		}
 		return aluno;
-	}
+	}*/
 }

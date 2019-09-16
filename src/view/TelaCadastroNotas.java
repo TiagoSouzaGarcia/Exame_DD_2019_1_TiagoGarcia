@@ -7,15 +7,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controller.ControllerNotas;
+import controller.AlunoController;
+import model.bo.AlunoBO;
+import model.vo.Aluno;
 
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TelaCadastroNotas extends JFrame {
 
@@ -29,7 +35,8 @@ public class TelaCadastroNotas extends JFrame {
 	private JTextField textTrabalhoDois;
 	private JTextField textPesoProvas;
 	private JTextField textPesoTrabalhos;
-	private String[] niveis = {ControllerNotas.NIVEL_BASICO, ControllerNotas.NIVEL_INTERMEDIARIO, ControllerNotas.NIVEL_AVANCADO};
+	private Aluno novoAluno = null;
+	private String[] niveis = {AlunoController.NIVEL_BASICO, AlunoController.NIVEL_INTERMEDIARIO, AlunoController.NIVEL_AVANCADO, AlunoController.NIVEL_ESPECIALISTA, AlunoController.NIVEL_SELECIONE};
 
 	/**
 	 * Launch the application.
@@ -78,85 +85,153 @@ public class TelaCadastroNotas extends JFrame {
 		contentPane.add(textFieldSobrenome);
 		textFieldSobrenome.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Matrícula");
-		lblNewLabel.setBounds(16, 62, 55, 16);
-		contentPane.add(lblNewLabel);
+		JLabel lblMatricula = new JLabel("Matrícula");
+		lblMatricula.setBounds(16, 62, 55, 16);
+		contentPane.add(lblMatricula);
 		
 		textMatricula = new JTextField();
 		textMatricula.setBounds(83, 56, 122, 28);
 		contentPane.add(textMatricula);
 		textMatricula.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("N\u00EDvel");
-		lblNewLabel_1.setBounds(239, 62, 55, 16);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblNivel = new JLabel("N\u00EDvel");
+		lblNivel.setBounds(239, 62, 55, 16);
+		contentPane.add(lblNivel);
 		
 		JComboBox comboBoxNivel = new JComboBox(niveis);
+		comboBoxNivel.setModel(new DefaultComboBoxModel(new String[] {"Selecione", "B\u00E1sico", "Intermedi\u00E1rio", "Avan\u00E7ado", "Especialista"}));
 		comboBoxNivel.setBounds(307, 53, 122, 26);
 		contentPane.add(comboBoxNivel);
 		
-		JLabel lblNewLabel_2 = new JLabel("NP1");
-		lblNewLabel_2.setBounds(17, 113, 55, 16);
-		contentPane.add(lblNewLabel_2);
+		JLabel lblNotaProva1 = new JLabel("NP1");
+		lblNotaProva1.setBounds(17, 113, 55, 16);
+		contentPane.add(lblNotaProva1);
 		
 		textNotaProvaUm = new JTextField();
 		textNotaProvaUm.setBounds(136, 107, 69, 28);
 		contentPane.add(textNotaProvaUm);
 		textNotaProvaUm.setColumns(10);
 		
-		JLabel lblNewLabel_3 = new JLabel("NP2");
-		lblNewLabel_3.setBounds(239, 113, 55, 16);
-		contentPane.add(lblNewLabel_3);
+		JLabel lblNotaProva2 = new JLabel("NP2");
+		lblNotaProva2.setBounds(239, 113, 55, 16);
+		contentPane.add(lblNotaProva2);
 		
 		textNotaProvaDois = new JTextField();
 		textNotaProvaDois.setBounds(360, 107, 69, 28);
 		contentPane.add(textNotaProvaDois);
 		textNotaProvaDois.setColumns(10);
 		
-		JLabel lblNewLabel_4 = new JLabel("T1");
-		lblNewLabel_4.setBounds(17, 153, 55, 16);
-		contentPane.add(lblNewLabel_4);
+		JLabel lblNotaTrabalho1 = new JLabel("T1");
+		lblNotaTrabalho1.setBounds(17, 153, 55, 16);
+		contentPane.add(lblNotaTrabalho1);
 		
 		textTrabalhoUm = new JTextField();
 		textTrabalhoUm.setBounds(136, 147, 69, 28);
 		contentPane.add(textTrabalhoUm);
 		textTrabalhoUm.setColumns(10);
 		
-		JLabel lblNewLabel_5 = new JLabel("T2");
-		lblNewLabel_5.setBounds(239, 153, 55, 16);
-		contentPane.add(lblNewLabel_5);
+		JLabel lblNotaTrabalho2 = new JLabel("T2");
+		lblNotaTrabalho2.setBounds(239, 153, 55, 16);
+		contentPane.add(lblNotaTrabalho2);
 		
 		textTrabalhoDois = new JTextField();
 		textTrabalhoDois.setBounds(360, 147, 69, 28);
 		contentPane.add(textTrabalhoDois);
 		textTrabalhoDois.setColumns(10);
 		
-		JLabel lblNewLabel_6 = new JLabel("Peso das Provas");
-		lblNewLabel_6.setBounds(17, 200, 107, 16);
-		contentPane.add(lblNewLabel_6);
+		JLabel lblPesoProvas = new JLabel("Peso das Provas");
+		lblPesoProvas.setBounds(17, 200, 107, 16);
+		contentPane.add(lblPesoProvas);
 		
 		textPesoProvas = new JTextField();
 		textPesoProvas.setBounds(136, 194, 69, 28);
 		contentPane.add(textPesoProvas);
 		textPesoProvas.setColumns(10);
 		
-		JLabel lblNewLabel_7 = new JLabel("Peso dos Trabalhos");
-		lblNewLabel_7.setBounds(235, 200, 113, 16);
-		contentPane.add(lblNewLabel_7);
+		JLabel lblPesoTrabalhos = new JLabel("Peso dos Trabalhos");
+		lblPesoTrabalhos.setBounds(235, 200, 113, 16);
+		contentPane.add(lblPesoTrabalhos);
 		
 		textPesoTrabalhos = new JTextField();
 		textPesoTrabalhos.setBounds(360, 194, 69, 28);
 		contentPane.add(textPesoTrabalhos);
 		textPesoTrabalhos.setColumns(10);
 		
+		JLabel lblResultado = new JLabel("Cursando");
+		lblResultado.setBounds(374, 262, 55, 16);
+		contentPane.add(lblResultado);
+		
 		JButton btnSalvarECalcular = new JButton("Salvar e Calcular Média Final");
-		btnSalvarECalcular.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ControllerNotas notasController = new ControllerNotas ();
+		btnSalvarECalcular.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String mensagemValidacao = validarPreenchimentoCampos();
+				
+				if (!mensagemValidacao.equals("")) {
+					JOptionPane.showMessageDialog(null, mensagemValidacao, "Atenção", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+				AlunoController controlador = new AlunoController();
+				
+				Aluno novoAluno = construirAlunoDaTela();
+				
+				String situacao = controlador.salvar(novoAluno);
 				
 			}
-		});
-		
+
+			private Aluno construirAlunoDaTela() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			private String validarPreenchimentoCampos() {
+				// TODO Auto-generated method stub
+				return null;
+				
+			}
+		}
+	}
+			);
+		/*btnSalvarECalcular.addActionListener(new ActionListener() {
+			@SuppressWarnings("null")
+			public void actionPerformed(ActionEvent e) {
+				AlunoController notasController = new AlunoController ();
+				String nomeDigitado = textFieldNome.getText();
+				String sobrenomeDigitado = textFieldSobrenome.getText();
+				String matricula = textMatricula.getText();
+				Double notaProvaUm = Double.parseDouble(textNotaProvaUm.getText());
+				Double notaProvaDois = Double.parseDouble(textNotaProvaDois.getText());
+				Double trabalhoUm = Double.parseDouble(textTrabalhoUm.getText());
+				Double trabalhoDois = Double.parseDouble(textTrabalhoDois.getText());
+				String nivel = (String) comboBoxNivel.getSelectedItem();
+				Double pesoProva = Double.parseDouble(textPesoProvas.getText());
+				Double pesoTrabalho = Double.parseDouble(textPesoTrabalhos.getText());
+				String situacao = lblResultado.getText();				
+				Double media = null;
+				
+				String mensagem = notasController.validarCamposSalvar(nomeDigitado, 
+						sobrenomeDigitado, matricula, notaProvaUm, notaProvaDois, 
+						trabalhoUm, trabalhoDois, pesoProva, pesoTrabalho);
+				
+				
+			/*	if (mensagem.isEmpty()) {
+					novoAluno = new Aluno(nomeDigitado,  sobrenomeDigitado,  matricula,  nivel,  notaProvaUm,
+							notaProvaDois,  trabalhoUm,  trabalhoDois, situacao,
+							 pesoProva,  pesoTrabalho, media);
+					novoAluno = |AlunoController.salvar(novoAluno);
+					
+					if (novoAluno.getId() > 0) {
+						btnSalvarECalcular.setEnabled(true);
+						
+					} else {
+						JOptionPane.showMessageDialog(null,  mensagem, "Atenção", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+				
+				notasController.validarSoma(null);*/
+				
+				
+						
 		btnSalvarECalcular.setBounds(17, 321, 199, 28);
 		contentPane.add(btnSalvarECalcular);
 		
@@ -184,13 +259,9 @@ public class TelaCadastroNotas extends JFrame {
 		lblMediaFinal.setBounds(17, 262, 107, 16);
 		contentPane.add(lblMediaFinal);
 		
-		JLabel lblSituao = new JLabel("Situa\u00E7\u00E3o");
-		lblSituao.setBounds(239, 262, 55, 16);
-		contentPane.add(lblSituao);
-		
-		JLabel lblNewLabel_8 = new JLabel("Cursando");
-		lblNewLabel_8.setBounds(374, 262, 55, 16);
-		contentPane.add(lblNewLabel_8);
+		JLabel lblSitucao = new JLabel("Situa\u00E7\u00E3o");
+		lblSitucao.setBounds(239, 262, 55, 16);
+		contentPane.add(lblSitucao);
 		
 		JLabel lblNewLabel_9 = new JLabel("Media");
 		lblNewLabel_9.setBounds(136, 262, 55, 16);
